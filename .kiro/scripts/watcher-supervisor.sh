@@ -14,7 +14,7 @@ cd "$(dirname "$0")/../.."
 PROJECT_DIR="$(pwd)"
 
 echo "🛡️ Watcher supervisor starting..."
-echo "   External watchers: watch-done, monitor, heartbeat"
+echo "   External watchers: watch-done, monitor, heartbeat, unity-errors"
 echo "   Native hooks: boundary, drift, progress, scope, done-gate"
 
 run_watcher() {
@@ -35,6 +35,7 @@ run_watcher "monitor" ".kiro/scripts/monitor.sh" &
 run_watcher "heartbeat" ".kiro/scripts/heartbeat.sh" &
 run_watcher "po-notify" ".kiro/scripts/po-notifier.sh" &
 run_watcher "task-watch" ".kiro/scripts/task-watcher.sh" &
+run_watcher "unity-errors" ".kiro/scripts/unity-error-watcher.sh" &
 
 echo "🛡️ All watchers launched. Ctrl+C to stop all."
 wait
