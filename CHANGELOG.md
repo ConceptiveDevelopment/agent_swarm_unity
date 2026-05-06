@@ -4,6 +4,34 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [3.0.0] - 2026-05-06
+
+### Added
+- **Unity 2D game development specialization** — swarm now purpose-built for Unity game dev
+- **New agents:**
+  - `scene-builder` — assembles Unity scenes via MCP (GameObjects, cameras, tilemaps, UI)
+  - `art-director` — establishes visual style, sprite specs, asset pipeline management
+  - `technical-artist` — materials, shaders, particle effects, animations, sprite atlases
+- **New skills:**
+  - `unity-patterns` — project structure, ScriptableObject architecture, event channels, batch MCP
+  - `sprite-pipeline` — art style guide, color palette, naming conventions, import settings
+- **Unity error watcher** (`unity-error-watcher.sh`) — tails Unity Editor.log, detects errors, interrupts active agents via tmux with context-aware Ctrl+C (only when generating, not when idle)
+- **AnkleBreaker Unity MCP Server** integration (288 tools, 30+ categories) via stdio transport
+- **6 developer slots** (3×2 tmux grid, up from 4)
+- Unity-specific config fields: `unity_version`, `unity_mcp_url`, `unity_project_path`, `game_type`, `render_pipeline`, `target_platforms`
+- Notion integration with `notion_root_page_id` in config
+
+### Changed
+- **BREAKING:** Swarm specialized for Unity 2D — no longer a generic software dev template
+- `engineer` agent rewritten for C#/Unity (MonoBehaviour, ScriptableObject, Unity MCP tools)
+- `architect` agent now Technical Director with Unity architecture knowledge (asmdef, prefabs, scenes, SOs)
+- `principal-qa` agent now includes Unity Test Runner and Play Mode verification
+- `orchestrator` routes tasks to scene-builder, art-director, technical-artist in addition to engineers
+- `mcp.json` uses stdio transport (`npx anklebreaker-unity-mcp@latest`) instead of HTTP URL
+- `watcher-supervisor.sh` includes unity-error-watcher
+- Max developers increased from 4 to 6
+- Developer grid layout changed from 2×2 to 3×2
+
 ## [2.0.1] - 2026-04-17
 
 ### Added
