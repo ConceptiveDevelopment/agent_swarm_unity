@@ -1,8 +1,8 @@
-# Agent Swarm 🐝
+# Agent Swarm — Unity 2D Game Dev 🐝🎮
 
-Multi-agent AI orchestration system for autonomous software development. Built with [Kiro CLI](https://kiro.dev) + tmux.
+Multi-agent AI orchestration system for **autonomous Unity 2D game development**. Built with [Kiro CLI](https://kiro.dev) + tmux + [Unity MCP](https://github.com/AnkleBreaker-Studio/unity-mcp-server).
 
-Drop a task list, watch AI agents build in parallel.
+Drop a game design, watch AI agents build it in parallel — code, scenes, art, and all.
 
 ## Prerequisites
 
@@ -13,6 +13,8 @@ Drop a task list, watch AI agents build in parallel.
 - **Notion** (optional) — API key set as `NOTION_API_KEY` for documentation sync
 - **Python 3** — for dashboard, status scripts, and hook JSON parsing
 - **Git 2.5+** — worktree support required
+- **Unity 6 LTS** — with AnkleBreaker Unity MCP Server plugin installed
+- **AnkleBreaker MCP Server** — `npm install -g @anklebreaker/unity-mcp-server` (runs on port 8090)
 
 ## Quick Start
 

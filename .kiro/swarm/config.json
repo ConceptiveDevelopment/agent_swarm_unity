@@ -9,13 +9,17 @@
   "github_repo": null,
   "documentation": "notion",
   "notion_api_key_env": "NOTION_API_KEY",
-  "max_developers": 4,
+  "notion_root_page_id": null,
+  "max_developers": 6,
   "branch_prefix": "feature/",
   "commit_format": "feat(<scope>): <description> — Implements <TICKET-ID>",
-  "build_command": null,
-  "test_command": null,
+  "build_command": "unity_mcp:manage_build",
+  "test_command": "unity_mcp:run_tests",
+  "unity_version": "6000.0",
+  "unity_mcp_url": "http://localhost:8090",
+  "unity_project_path": null,
   "docs_dir": "docs/architecture",
-  "auto_accept_labels": ["chore", "docs", "dependency"],
+  "auto_accept_labels": ["chore", "docs", "art-placeholder"],
   "auto_accept_max_priority": 3,
   "session_scope": [],
   "linear_workflow_states": {
@@ -25,5 +29,8 @@
     "in_review": "In Review",
     "done": "Done",
     "canceled": "Canceled"
-  }
+  },
+  "game_type": "2d",
+  "render_pipeline": "URP",
+  "target_platforms": ["StandaloneWindows64", "StandaloneOSX"]
 }

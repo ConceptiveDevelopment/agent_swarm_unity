@@ -19,8 +19,8 @@ PROJECT_DIR="$(pwd)"
 source .kiro/scripts/swarm-env.sh
 
 SESSION="${TMUX_SESSION:-$(tmux display-message -p '#S')}"
-NUM_DEVS="${1:-4}"
-MAX_DEVS=4
+NUM_DEVS="${1:-6}"
+MAX_DEVS=6
 P="$SWARM_PREFIX"
 
 # Pre-flight: validate config
@@ -140,24 +140,38 @@ record_pane "DEVELOPER-1" "$DEV1_PANE"
 accept_trust "$DEV1_PANE"
 
 if [ "$NUM_DEVS" -ge 2 ]; then
-    DEV2_PANE=$(tmux split-window -t "$DEV1_PANE" -h -l 50% -P -F '#{pane_id}' "cd $PROJECT_DIR && AGENT_NUMBER=2 kiro-cli chat -a --agent engineer; $AGENT_CMD")
+    DEV2_PANE=$(tmux split-window -t "$DEV1_PANE" -h -l 66% -P -F '#{pane_id}' "cd $PROJECT_DIR && AGENT_NUMBER=2 kiro-cli chat -a --agent engineer; $AGENT_CMD")
     tmux set-option -p -t "$DEV2_PANE" remain-on-exit on 2>/dev/null
     record_pane "DEVELOPER-2" "$DEV2_PANE"
     accept_trust "$DEV2_PANE"
 fi
 
 if [ "$NUM_DEVS" -ge 3 ]; then
-    DEV3_PANE=$(tmux split-window -t "$DEV1_PANE" -v -l 50% -P -F '#{pane_id}' "cd $PROJECT_DIR && AGENT_NUMBER=3 kiro-cli chat -a --agent engineer; $AGENT_CMD")
+    DEV3_PANE=$(tmux split-window -t "$DEV2_PANE" -h -l 50% -P -F '#{pane_id}' "cd $PROJECT_DIR && AGENT_NUMBER=3 kiro-cli chat -a --agent engineer; $AGENT_CMD")
     tmux set-option -p -t "$DEV3_PANE" remain-on-exit on 2>/dev/null
     record_pane "DEVELOPER-3" "$DEV3_PANE"
     accept_trust "$DEV3_PANE"
 fi
 
 if [ "$NUM_DEVS" -ge 4 ]; then
-    DEV4_PANE=$(tmux split-window -t "$DEV2_PANE" -v -l 50% -P -F '#{pane_id}' "cd $PROJECT_DIR && AGENT_NUMBER=4 kiro-cli chat -a --agent engineer; $AGENT_CMD")
+    DEV4_PANE=$(tmux split-window -t "$DEV1_PANE" -v -l 50% -P -F '#{pane_id}' "cd $PROJECT_DIR && AGENT_NUMBER=4 kiro-cli chat -a --agent engineer; $AGENT_CMD")
     tmux set-option -p -t "$DEV4_PANE" remain-on-exit on 2>/dev/null
     record_pane "DEVELOPER-4" "$DEV4_PANE"
     accept_trust "$DEV4_PANE"
+fi
+
+if [ "$NUM_DEVS" -ge 5 ]; then
+    DEV5_PANE=$(tmux split-window -t "$DEV2_PANE" -v -l 50% -P -F '#{pane_id}' "cd $PROJECT_DIR && AGENT_NUMBER=5 kiro-cli chat -a --agent engineer; $AGENT_CMD")
+    tmux set-option -p -t "$DEV5_PANE" remain-on-exit on 2>/dev/null
+    record_pane "DEVELOPER-5" "$DEV5_PANE"
+    accept_trust "$DEV5_PANE"
+fi
+
+if [ "$NUM_DEVS" -ge 6 ]; then
+    DEV6_PANE=$(tmux split-window -t "$DEV3_PANE" -v -l 50% -P -F '#{pane_id}' "cd $PROJECT_DIR && AGENT_NUMBER=6 kiro-cli chat -a --agent engineer; $AGENT_CMD")
+    tmux set-option -p -t "$DEV6_PANE" remain-on-exit on 2>/dev/null
+    record_pane "DEVELOPER-6" "$DEV6_PANE"
+    accept_trust "$DEV6_PANE"
 fi
 
 # ── Window 6: WATCHERS (harness monitors via supervisor) ──
@@ -178,7 +192,7 @@ echo "   ${P}:COMMAND — Product Owner (left) + Monitor (right)"
 echo "   ${P}:ORCHESTRATOR — coordinates agents"
 echo "   ${P}:ARCHITECT — context briefs, impact analysis"
 echo "   ${P}:PRINCIPAL-QA — pre-merge review, regression checks"
-echo "   ${P}:DEVELOPERS — $NUM_DEVS engineers in 2x2 grid"
+echo "   ${P}:DEVELOPERS — $NUM_DEVS engineers in 3x2 grid"
 echo "   ${P}:WATCHERS — harness monitors (done-watch, crash, heartbeat, drift, boundary)"
 echo ""
 echo "Pane manifest: $PANES_FILE"
