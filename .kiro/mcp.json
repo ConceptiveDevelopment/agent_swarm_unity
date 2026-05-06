@@ -1,8 +1,11 @@
 {
   "mcpServers": {
     "unityMCP": {
-      "url": "http://localhost:8090/mcp",
-      "description": "AnkleBreaker Unity MCP Server — 288 tools for Unity Editor control"
+      "command": "npx",
+      "args": ["anklebreaker-unity-mcp@latest"],
+      "env": {
+        "UNITY_BRIDGE_PORT": "7890"
+      }
     }
   }
 }
