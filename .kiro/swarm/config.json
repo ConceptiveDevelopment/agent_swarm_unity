@@ -1,0 +1,29 @@
+{
+  "project_name": "your-project",
+  "git_remote": "origin",
+  "issue_tracker": "linear",
+  "linear_api_key_env": "LINEAR_API_KEY",
+  "linear_team_id": null,
+  "linear_project_id": null,
+  "source_code": "github",
+  "github_repo": null,
+  "documentation": "notion",
+  "notion_api_key_env": "NOTION_API_KEY",
+  "max_developers": 4,
+  "branch_prefix": "feature/",
+  "commit_format": "feat(<scope>): <description> — Implements <TICKET-ID>",
+  "build_command": null,
+  "test_command": null,
+  "docs_dir": "docs/architecture",
+  "auto_accept_labels": ["chore", "docs", "dependency"],
+  "auto_accept_max_priority": 3,
+  "session_scope": [],
+  "linear_workflow_states": {
+    "backlog": "Backlog",
+    "ready": "Ready",
+    "in_progress": "In Progress",
+    "in_review": "In Review",
+    "done": "Done",
+    "canceled": "Canceled"
+  }
+}

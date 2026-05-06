@@ -1,0 +1,11 @@
+.kiro/swarm/task-*
+.kiro/swarm/done-*
+.kiro/swarm/brief-*
+.kiro/swarm/crashed-*
+.kiro/swarm/status-*
+.kiro/swarm/session-summary.md
+.kiro/swarm/panes.json
+.kiro/swarm/.completed-count
+.kiro/swarm/archive/
+.kiro/.notion-sync-marker
+.DS_Store
