@@ -2,14 +2,14 @@
   "mcpServers": {
     "unityMCP": {
       "command": "npx",
-      "args": ["anklebreaker-unity-mcp@latest"],
+      "args": ["anklebreaker-unity-mcp@2.28.2"],
       "env": {
         "UNITY_BRIDGE_PORT": "7890"
       }
     },
     "gpt-image-1": {
       "command": "npx",
-      "args": ["-y", "@cloudwerxlab/gpt-image-1-mcp"],
+      "args": ["-y", "@cloudwerxlab/gpt-image-1-mcp@3.2.0"],
       "env": {
         "OPENAI_API_KEY": "${OPENAI_API_KEY}",
         "GPT_IMAGE_OUTPUT_DIR": "./Assets/Sprites/Generated"
