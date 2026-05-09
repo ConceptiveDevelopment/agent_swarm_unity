@@ -6,6 +6,14 @@
       "env": {
         "UNITY_BRIDGE_PORT": "7890"
       }
+    },
+    "gpt-image-1": {
+      "command": "npx",
+      "args": ["-y", "@cloudwerxlab/gpt-image-1-mcp"],
+      "env": {
+        "OPENAI_API_KEY": "${OPENAI_API_KEY}",
+        "GPT_IMAGE_OUTPUT_DIR": "./Assets/Sprites/Generated"
+      }
     }
   }
 }
