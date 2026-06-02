@@ -13,6 +13,9 @@
 cd "$(dirname "$0")/../.."
 PROJECT_DIR="$(pwd)"
 
+# Refresh panes.json from live tmux session
+bash .kiro/scripts/refresh-panes.sh
+
 echo "🛡️ Watcher supervisor starting..."
 echo "   External watchers: watch-done, monitor, heartbeat, unity-errors"
 echo "   Native hooks: boundary, drift, progress, scope, done-gate"
