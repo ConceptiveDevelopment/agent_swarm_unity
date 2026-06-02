@@ -16,7 +16,10 @@ render() {
   local SEP
   SEP=$(printf '━%.0s' $(seq 1 $((COLS / 2))))
 
-  output+="🐝 SWARM [$SWARM_PREFIX] $(date '+%H:%M')\n"
+  local SWARM_VER
+  SWARM_VER=$(cat .kiro/swarm/VERSION 2>/dev/null || echo "?")
+
+  output+="🐝 SWARM [$SWARM_PREFIX] v${SWARM_VER} $(date '+%H:%M')\n"
   output+="${SEP}\n"
 
   # Session scope
@@ -45,18 +48,38 @@ tw = cols - 4  # usable text width
 
 s = json.load(open('.kiro/swarm/status.json'))
 
-agents = s.get('agents', {})
-if agents:
-    for name, a in sorted(agents.items()):
-        icon = '🔨' if a['status'] == 'working' else '💤'
-        task = a.get('current_task') or ''
-        if task:
-            t = s.get('tasks', {}).get(task, {})
-            title = t.get('title', '')[:tw - len(name) - len(task) - 4]
-            print('  %s %-14s %s %s' % (icon, name[:14], task, title))
-        else:
-            print('  %s %s' % (icon, name[:14]))
-    print()
+# Derive agent state from live task/done files on disk
+import glob
+agents = ['orchestrator', 'architect', 'principal-qa', 'developer-1', 'developer-2', 'developer-3', 'developer-4']
+for name in agents:
+    task_file = f'.kiro/swarm/task-{name}.md'
+    done_file = f'.kiro/swarm/done-{name}.md'
+    if os.path.exists(done_file):
+        icon = '✅'
+        # Read issue from done file
+        issue = ''
+        with open(done_file) as df:
+            for line in df:
+                if line.startswith('# Done:') or 'Issue #' in line or 'Issue:' in line:
+                    import re
+                    m = re.search(r'#(\d+)', line)
+                    if m: issue = '#' + m.group(1)
+                    break
+        print('  %s %-14s %s done' % (icon, name[:14], issue))
+    elif os.path.exists(task_file):
+        icon = '🔨'
+        issue = ''
+        with open(task_file) as tf:
+            for line in tf:
+                if '## Issue:' in line or '# Task:' in line:
+                    import re
+                    m = re.search(r'#(\d+)', line)
+                    if m: issue = '#' + m.group(1)
+                    break
+        print('  %s %-14s %s' % (icon, name[:14], issue))
+    else:
+        print('  💤 %s' % name[:14])
+print()
 
 tasks = s.get('tasks', {})
 for status, icon, label in [('in_progress', '🔨', 'In Progress'), ('open', '⏸️', 'Queued'), ('blocked', '⛔', 'Blocked'), ('closed', '✅', 'Done')]:
@@ -104,26 +127,26 @@ for status, icon, label in [('in_progress', '🔨', 'In Progress'), ('open', '�
     output+="  offline\n"
   fi
 
-  # Backlog from status.json
+  # GitLab backlog
   output+="\n📥 BACKLOG\n"
   local BACKLOG
-  BACKLOG=$(python3 -c "
-import json, os
+  BACKLOG=$(cd "$SWARM_DIR" && glab issue list --label "ready" --per-page 5 --output json 2>/dev/null | COLS=$COLS python3 -c "
+import json, sys, os
 cols = int(os.environ.get('COLS', '60'))
 tw = cols - 4
-if os.path.exists('.kiro/swarm/status.json'):
-    s = json.load(open('.kiro/swarm/status.json'))
-    tasks = s.get('tasks', {})
-    queued = [(k, v) for k, v in sorted(tasks.items(), key=lambda x: x[1].get('priority', 9)) if v.get('status') == 'open']
-    if not queued:
+try:
+    issues = json.load(sys.stdin)
+    if not issues:
         print('  (empty)')
     else:
-        for tid, t in queued[:5]:
-            title = t.get('title', '')[:tw - 10]
-            p = 'P' + str(t.get('priority', '?'))
-            print('  %s %s %s' % (tid, title, p))
-else:
-    print('  (no status.json)')
+        for i in issues[:5]:
+            iid = '#' + str(i.get('iid','?'))
+            title = i.get('title','')[:tw - 10]
+            labels = [l for l in i.get('labels',[]) if l.startswith('P')]
+            p = labels[0] if labels else ''
+            print('  %s %s %s' % (iid, title, p))
+except:
+    print('  (unavailable)')
 " 2>/dev/null)
   if [ -z "$BACKLOG" ]; then
     BACKLOG="  (no issues)"
